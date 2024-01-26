@@ -26,12 +26,19 @@ int main() {
 	
 	list.remove(5, List::DeleteFlag::EQUAL);
 	cout << "After remove = 5: ";
+    list.print();
+    cout << endl;
+
+	list.remove(10, List::DeleteFlag::EQUAL);
+	cout << "After remove = 10: ";
 	list.print();
 	cout << endl;
+
 	list.remove(5, List::DeleteFlag::GREATER);
 	cout << "After remove > 5: ";
 	list.print();
 	cout << endl;
+
 	list.remove(5, List::DeleteFlag::LESS);
 	cout << "After remove < 5: ";
 	list.print();

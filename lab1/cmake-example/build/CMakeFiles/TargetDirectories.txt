@@ -1,0 +1,6 @@
+/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-example/build/CMakeFiles/SimpleMain.dir
+/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-example/build/CMakeFiles/edit_cache.dir
+/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-example/build/CMakeFiles/rebuild_cache.dir
+/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-example/build/testlib/CMakeFiles/TestLib.dir
+/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-example/build/testlib/CMakeFiles/edit_cache.dir
+/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-example/build/testlib/CMakeFiles/rebuild_cache.dir

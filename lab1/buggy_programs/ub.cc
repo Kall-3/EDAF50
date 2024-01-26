@@ -15,7 +15,7 @@ template <typename C>
 void print_seq(const C& c)
 {
     for(const auto& x : c) cout << x << " ";
-    cout << "\n";
+    cout << endl;
 }
 
 void example()

@@ -19,10 +19,11 @@ int main(int argc, char** argv)
 {
     cout << "argc=" << argc << endl;
 
-    for(int i=0; i < argc; ++i){
+    for(int i=0; i < argc; ++i)
+    {
         std::string arg{argv[i]}; // create a std::string for the argument
 
-        print_string(arg);        // pass the std::string to a functio
+        print_string(arg);        // pass the std::string to a function
     }
     cout << endl;
     return 0;

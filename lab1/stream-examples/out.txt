@@ -1,0 +1,4 @@
+This text is written to stdout
+And this is written to stderr
+More text to stdout
+And some more to stderr

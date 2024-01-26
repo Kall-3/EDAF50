@@ -1,9 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 
-/*
- * List is a list of integers
- */
+/* List is a list of integers */
 class List {
 public:
 	/* creates an empty list */

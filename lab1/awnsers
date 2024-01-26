@@ -1,0 +1,48 @@
+A4: It is a linker error. Compile errors are related to problems with syntax etc. Linker errors are related to defined 
+but undeclared functions, like the_function in this case. The header file is included but the function is never initialized.
+
+A10/11/12:
+    bounds: No allocation or deallocation errors (Valgrind), but read on invalid adress (11-15) outside bounds (0-10).
+    Everything is allocated on the stack.
+
+    bounds-heap: Like bounds but with allocation to the heap. Valgrind gives invalid address errors now since it keeps track
+    of the heap. Address sanitizer gives error on allocation of array.
+
+    dangling: The print function takes the Foo object and free it when exiting the scope (print), then you access it again
+    and print it again and free it again (double free). Proper way would be to take a pointer to the object in the print
+    function. Valgrind gives 3 allocs, 5 frees and write/read/free errors for said problems. fsanitize gives same address
+    write and free errors.
+
+    leak: Missing free function. When exiting a scope, the Foo object can not be freed, so we get two missing frees for the
+    two scopes. Valgrind confirmes this with 4 allocs, 2 frees. fsanitize also detects memory leaks and SEGV.
+
+    sum: The sum is calculated outside of scope. This gives undefined behavior. Valgrind does not detect alloc/free errors,
+    but fsanitize gives invalid READ (reading outside array scope).
+
+    ub: Missing return statement for new_vector(). Valgrind gives "Unrecognized instruction", which it gives for erroneous
+    code. Google sanitizer does not run as the shell throws illegal hardware instruction. GDB gives SIGILL, Illegal
+    instruction at line 12, at create_vector.
+
+Reflection:
+    1. A delclaration gives an identity, a definition gives a value. A declaration can also allocate space on the heap for
+    the value depending on what it is you declare (i.e. an array).
+
+    2. An include gruard can be used to checck if an identifier to an object exists. When including a class, define a
+    identifier to that class, so if some other part of the program tries to include the class again, the guard check looks
+    at the existing defined classes and sees a conflict, and does not inlude it again.
+
+    3. The compiler will give hints to linking failure. A linker error happens when some dependent functions or classes from
+    another file are not linked to the main file when compiling. To fix it you just have to compile your file with the other
+    .cc files.
+
+    4. Yes, include the targets to the new encode.cc and decode.cc files. Also include the files in the "PROGS" variable.
+
+    5. If you use the Standard ACSII characters 0-127, it will be the same as the negative part is the most significant bit
+    and does not change when casting from unsigned to signed, or vice versa.
+
+    6. It does not work on sertain characters, like newline.
+
+    7. Compile with debugging on, -g, and use GDB with breakpoints etc.
+
+    8. A breakpoint pauses execution when reaching a line in the code (or respective machinecode), a watchpoint pauses when
+    the assosiated variable is initialized (or changed).

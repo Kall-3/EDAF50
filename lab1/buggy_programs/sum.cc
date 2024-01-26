@@ -8,7 +8,7 @@ int y = 2000;
 
 int main()
 {
-	int	sum{0};
+    int	sum{0};
 
     std::cout << "welcome to the buggy sum program. the sum should be 10\n";
 

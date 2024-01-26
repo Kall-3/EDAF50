@@ -1,11 +1,12 @@
 #include <iostream>
 #include <numeric>
-using std::cout;
 
+using std::cout;
 
 void print(int* a, int size)
 {
-    for(int i=0; i < size; ++i){
+    for(int i = 0; i < size; ++i)
+    {
         cout << a[i] << " ";
     }
     cout << "\n";

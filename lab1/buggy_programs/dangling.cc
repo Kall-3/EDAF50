@@ -16,7 +16,7 @@ struct Foo{
 void print(Foo f)
 {
     for(const auto& x : f) cout << x << " ";
-    endl(cout);
+    cout << std::endl;
 }
 void example1()
 {
@@ -25,7 +25,7 @@ void example1()
 
     print(f);
     cout << "after first print\n";
-    *f.begin()=123;
+    *f.begin() = 123;
     cout << "printing again\n";
     print(f);
     cout << "done\n";

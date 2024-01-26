@@ -1,0 +1,23 @@
+#include <iostream>
+#include <string>
+#include "coding.h"
+
+using std::cout;
+using std::endl;
+
+int main()
+{
+    std::string s;
+    //while (std::cin >> s)
+    while(std::getline(std::cin, s))
+    {
+        for (signed char c : s)
+        {
+            cout << encode(c);
+        }
+        // const char a = (char) 0b11111111;
+        // cout << encode(a);
+        cout << endl;
+    }
+    return 0;
+}
