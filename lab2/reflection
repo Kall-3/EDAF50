@@ -1,0 +1,12 @@
+1. Until end of file, EOF
+
+2. Overload the input stream operator
+
+3. Fixed size array of ints
+
+4. One of the values are converted to the other, so the signed -1 can become very large value so -1 < 1 would fail
+for instance.
+
+5. Default-inserted elements are appended to fill the missing elements.
+
+

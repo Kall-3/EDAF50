@@ -11,7 +11,7 @@ int main()
     //while (std::cin >> s)
     while(std::getline(std::cin, s))
     {
-        for (signed char c : s)
+        for (unsigned char c : s)
         {
             cout << encode(c);
         }
