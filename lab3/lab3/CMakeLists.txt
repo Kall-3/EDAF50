@@ -1,0 +1,5 @@
+if(BUILD_TESTING)
+    add_subdirectory(html)
+    add_subdirectory(primes)
+    add_subdirectory(date)
+endif()

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/prime_test.dir/prime_test.cc.o CMakeFiles/prime_test.dir/sieve_of_eratosthenes_primes.cc.o -o prime_test  ../../lib/libgtest_main.a ../../lib/libgtest.a 

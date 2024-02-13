@@ -1,0 +1,23 @@
+TestTopic.TrivialEquality 48 0.00476023
+TestTopic.HTMLTesting 1 0.00218488
+HTMLTesting.StringTest 1 0.00710871
+HTMLTesting.ConstructorTest 72 0.00953726
+HTMLTesting.OutputTest 72 0.00815243
+HTMLTesting.NewlineTest 59 0.00743763
+HTMLTesting.GivenLabTest 51 0.00677734
+PrimeTest.PrimesUnderTenTest 47 0.00500956
+PrimeTest.LastFivePrimesUnder_1_000 45 0.0155115
+PrimeTest.LargersPrimeUpto_100_000 46 0.0136484
+DateTest.ConstructorTest 2 0.0200864
+DateTest.NextDateTest 12 0.014813
+DateTest.InStreamTest 38 0.012472
+DateTest.OutStreamTest 31 0.0176028
+DateTest.ConstructorAndGetTest 38 0.00335288
+DateTest.HarderOutStreamTest 24 0.0194702
+DateTest.FailingInStreamTest 20 0.0207539
+ToStringTest.TrivialEqualityTest 10 0.00621238
+StringCastTest.FromInt 7 0.0125728
+StringCastTest.FromDouble 7 0.00543374
+StringCastTest.FromDateClass 7 0.00355114
+StringCastTest.ExpectExceptionThrown 5 0.00948135
+---

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/html_test.dir/html_test.cc.o CMakeFiles/html_test.dir/tagremover.cc.o -o html_test  ../../lib/libgtest_main.a ../../lib/libgtest.a 

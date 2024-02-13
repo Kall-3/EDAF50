@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/g_date_test.dir/g_date_test.cc.o CMakeFiles/g_date_test.dir/date.cc.o -o g_date_test  ../../lib/libgtest_main.a ../../lib/libgtest.a 
