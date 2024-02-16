@@ -7,7 +7,7 @@ public:
 
     /* Member functions */
     SievePrimes(const int roof);
-    ~SievePrimes();
+    ~SievePrimes() = default;
 
     std::vector<int> getPrimes();
     int largestPrime();

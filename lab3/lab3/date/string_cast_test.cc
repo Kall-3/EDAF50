@@ -1,5 +1,6 @@
 #include <exception>
 #include <gtest/gtest.h>
+#include <iostream>
 #include "string_cast.cc"
 #include "date.h"
 

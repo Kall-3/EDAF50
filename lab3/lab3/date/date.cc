@@ -38,7 +38,7 @@ std::istream& operator>>(std::istream& input, Date& date) {
     int year, month, day;
     input >> year >> dash >> month >> dash >> day;
 
-    if (!input || year < 0 || month < 0 || month > 12 || day < 0 || day > date.daysPerMonth[date.month]) {
+    if (!input || year < 0 || month < 1 || month > 12 || day < 1 || day > date.daysPerMonth[date.month]) {
         // Input validation: set state to fail if input is incorrect
         input.setstate(std::ios::failbit);
     } else {

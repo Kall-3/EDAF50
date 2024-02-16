@@ -64,9 +64,6 @@ TagRemover::TagRemover(std::istream& input) {
     this->data = result.str();
 }
 
-TagRemover::~TagRemover() {
-}
-
 void TagRemover::print(std::ostream& out) {
     out << this->data;
 }

@@ -8,7 +8,7 @@ T string_cast(const std::string& str) {
     T value;
     iss >> value;
 
-    if (!iss.eof() || iss.fail()) {
+    if (!iss.eof() && iss.fail()) {
         throw std::invalid_argument("Conversion failed");
     }
 

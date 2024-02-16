@@ -19,6 +19,7 @@ SievePrimes::SievePrimes(const int roof) {
     }
 
     std::vector<int> primes = {};
+    // Enumeration, to find what numbers are primes
     for (auto it = representation.begin(); it != representation.end(); ++it) {
         if (*it == 'P') {
             primes.push_back(it - representation.begin());
@@ -26,9 +27,6 @@ SievePrimes::SievePrimes(const int roof) {
     }
 
     this->primes = primes;
-}
-
-SievePrimes::~SievePrimes() {
 }
 
 std::vector<int> SievePrimes::getPrimes() {

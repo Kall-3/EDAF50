@@ -1,7 +1,7 @@
 1. With a google test EXPECT_THROW. It also checks that the correct exception is thrown and the correct error message
 is printed.
 
-2. To be more generic, let the caller deside the stream type. Also for writing tests, so we can use stringstreams etc.
+2. To be more generic, let the caller decide the stream type. Also for writing tests, so we can use stringstreams etc.
 
 3. Both but used line by line, an advantage is that you can save multiple newlines. If you regex the entire file it
 will most likely be faster but the inputs are small and few.
@@ -11,8 +11,8 @@ will most likely be faster but the inputs are small and few.
 std::string content((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
 
 The string constructor takes two iterators, one from the beginning and one from the end. The second argument is a empty
-iterator which is anagolous to a "end" iterator, which means the first iterator will go until the end while constructing
-the string.
+iterator which is analogous to a "end" iterator, which means the first iterator will go until the end while
+constructing the string.
 
 5. You can put the regular expressions into classes, so if something matches any of those patterns they should be
 replaced. However, since you need to know which pattern matched to replace the character, you still need to check

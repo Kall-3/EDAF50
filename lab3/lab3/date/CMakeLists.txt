@@ -1,5 +1,3 @@
-# add_executable(primes primes.cc sieve_of_eratosthenes_primes.cc)
-
 add_executable(date_test date_test.cc date.cc)
 
 add_executable(g_date_test g_date_test.cc date.cc)
