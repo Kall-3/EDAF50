@@ -1,5 +1,5 @@
 /* myclient.cc: sample client program */
-#include "connection.h"
+#include "../src/connection.h"
 #include "connectionclosedexception.h"
 
 #include <cstdlib>
@@ -41,20 +41,20 @@ string readString(const Connection& conn)
  */
 Connection init(int argc, char* argv[])
 {
-        if (argc != 3) {
+        if (argc != 4) {
                 cerr << "Usage: myclient host-name port-number" << endl;
                 exit(1);
         }
 
         int port = -1;
         try {
-                port = std::stoi(argv[2]);
+                port = std::stoi(argv[3]);
         } catch (std::exception& e) {
                 cerr << "Wrong port number. " << e.what() << endl;
                 exit(2);
         }
 
-        Connection conn(argv[1], port);
+        Connection conn(argv[2], port);
         if (!conn.isConnected()) {
                 cerr << "Connection attempt failed" << endl;
                 exit(3);

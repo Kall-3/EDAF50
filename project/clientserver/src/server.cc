@@ -1,29 +1,3 @@
-// ------------------------------------------------------------------
-//
-//                                 Client/Server communication package
-//
-//                                          Server implementation file
-//
-// Change log
-// 950323  RH  Initial version
-// 951212  RH  Modified to allow subclassing of class Connection
-// 970127  RH  Added extra include to make the file compile under Linux
-// 990125  PH  Changed function names: Read -> read, ...
-// 000114  PH  int -> bool, virtual destructors, other minor changes
-// 010129  PH  added void type to initConnection
-// 011212  PH  changed char* arguments to const char*
-//             changed connection closed handling to exception
-//             unsigned char instead of char/int in write/read
-// 020102  PH  split into separate file for each class
-// 040421  PH  added namespace, new casts, cleaned up a lot
-// 050113  PH  added deregisterConnection, new registration (vector),
-//             added check for server shutdown, many more changes
-// 130521  PH  removed namespace, shared pointers instead of raw
-//             pointers, uses library algorithms
-// 190211  SGR use Connection::no_socket instead of literal -1
-//             added move ctor to Connection and Server
-// ------------------------------------------------------------------
-
 #include "server.h"
 
 #include "connection.h"
@@ -37,9 +11,12 @@
 #include <sys/time.h>   /* select() */
 #include <sys/types.h>  /* socket(), bind(), select() */
 #include <unistd.h>     /* close(), select() */
+#include <vector>
 
 Server::Server(int port)
 {
+        connections = {};
+
         my_socket = socket(AF_INET, SOCK_STREAM, 0);
         if (my_socket < 0) {
                 my_socket = Connection::no_socket;

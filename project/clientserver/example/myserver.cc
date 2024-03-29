@@ -39,14 +39,15 @@ void writeString(const std::shared_ptr<Connection>& conn, const string& s)
 
 Server init(int argc, char* argv[])
 {
-        if (argc != 2) {
-                cerr << "Usage: myserver port-number" << endl;
+        if (argc != 3) {
+                cerr << argc << " Usage: myserver port-number" << endl;
                 exit(1);
         }
+        cout << "Name: " << argv[1] << ", Port: " << argv[2];
 
         int port = -1;
         try {
-                port = std::stoi(argv[1]);
+                port = std::stoi(argv[2]);
         } catch (std::exception& e) {
                 cerr << "Wrong format for port number. " << e.what() << endl;
                 exit(2);
