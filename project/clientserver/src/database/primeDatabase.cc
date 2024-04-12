@@ -6,5 +6,5 @@ public:
     /* unordered map with <group name, NewsGroup> */
     std::unordered_map<std::string, NewsGroup> groups;
 
-    PrimeDatabase() = default();
+        PrimeDatabase() = default();
 };
