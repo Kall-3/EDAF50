@@ -39,6 +39,6 @@ IPAddress UMNS::lookup(const HostName& host) const {
     if (it != this->name_server.end()) {
         return it->second;
     } else {
-        return 0;
+        return NON_EXISTING_ADDRESS;
     }
 }

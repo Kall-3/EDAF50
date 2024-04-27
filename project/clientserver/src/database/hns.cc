@@ -4,49 +4,48 @@
 #include <utility>
 #include <vector>
 #include "hns.h"
-#include "nameserverinterface.h"
+#include "enums.h"
 
-HNS::HNS(size_t size) : size(size), load_factor(0), max_load_factor(0.7) {
+HashMap::HashMap(size_t size) : size(size), load_factor(0), max_load_factor(0.7) {
     this->size = size;
-    this->name_server.resize(size, std::vector<std::pair<HostName, IPAddress>>(1, std::make_pair("", NON_EXISTING_ADDRESS)));
+    this->articles.resize(size, std::vector<std::pair<ArticleName, Article>>(1, std::make_pair("", Article::Empty())));
 }
 
-void HNS::insert(const HostName& host, const IPAddress& address) {
-    std::size_t idx = std::hash<HostName>{}(host) % this->size;
+void HashMap::insert(const ArticleName& title, const Article& article) {
+    std::size_t idx = std::hash<ArticleName>{}(title) % this->size;
 
     if (load_factor >= max_load_factor) {
         rehash();
     }
     load_factor += (1.0/size);
 
-    if (this->name_server[idx][0].second == NON_EXISTING_ADDRESS) {
-        this->name_server[idx][0] = std::make_pair(host, address);
+    if (this->articles[idx][0].first == "") {
+        this->articles[idx][0] = std::make_pair(title, article);
     } else {
         // std::cout << "Hashing collision on index " << idx << std::endl;
-        this->name_server[idx].push_back(std::make_pair(host, address));
+        this->articles[idx].push_back(std::make_pair(title, article));
     }
 }
 
-bool HNS::remove(const HostName& host) {
-    std::size_t idx = std::hash<HostName>{}(host) % this->size;
+bool HashMap::remove(const ArticleName& id) {
+    std::size_t idx = std::hash<ArticleName>{}(id) % this->size;
 
-    // Find if bucket at hash index is empty
-    if (this->name_server[idx][0].second != NON_EXISTING_ADDRESS) {
-        // Go through bucket and remove element
-        for (auto element : this->name_server[idx]) {
-            if (element.first == host) {
-                element.second = NON_EXISTING_ADDRESS;
-                return true;
+    if (articles[idx][0].first != "") {
+        for (auto element : this->articles[idx]) {
+            if (element.second.getID() == id) {
+                return element.second;
             }
         }
+        articles[idx] = std::vector<std::pair<ArticleName, Article>>(1, std::make_pair("", Article::Empty()));
+        return true;
     }
     return false;
 }
 
-IPAddress HNS::lookup(const HostName& host) const {
+Article* HashMap::lookup(const ArticleName& host) const {
     std::size_t idx = std::hash<std::string>{}(host) % this->size;
 
-    if (this->name_server[idx][0].second != NON_EXISTING_ADDRESS) {
+    if (this->articles[idx][0].first != "") {
         // Find element in bucket and return
         for (auto element : this->name_server[idx]) {
             if (element.first == host) {
@@ -54,7 +53,7 @@ IPAddress HNS::lookup(const HostName& host) const {
             }
         }
     }
-    return NON_EXISTING_ADDRESS;
+    return nullptr;
 }
 
 void HNS::rehash() {

@@ -1,27 +1,30 @@
-#include <ostream>
+#include <vector>
 #include <unordered_map>
 #include "article.h"
+#include "enums.h"
 
-class NewsGroup {
+class Newsgroup {
 public:
-    /* unordered map with <title, article> */
-    std::unordered_map<std::string, Article> articles;
-
     /* New newsgroup*/
-    NewsGroup();
+    Newsgroup(NewsgroupName name);
 
     /* Remove newsgroup */
-    ~NewsGroup();
+    ~Newsgroup();
 
     /* Prints articles in newsgroup to std::out */
-    void listArticles();
+    std::pair<ActionResult, std::vector<Article>> getArticles();
+    ActionResult newArticle(ArticleName, Author, Body);
+    std::pair<ActionResult, Article> getArticle(const ArticleID&);
+    ActionResult removeArticle(const ArticleID&);
 
-    /* New article */
-    void newArticle(std::string title, std::string author, std::string body);
-
-    /* Print article to std::ostream */
-    void printArticle(std::ostream out, std::string title);
-
-    /* Remove article with title */
-    void removeArticle(std::string title);
+private:
+    /* Member values */
+    static size_t newsgroup_counter;
+    std::size_t identification_number;
+    std::string name;
+    /* unordered map with <id, article> */
+    std::unordered_map<ArticleID, Article> articles;
 };
+
+size_t Newsgroup::newsgroup_counter = 0;
+

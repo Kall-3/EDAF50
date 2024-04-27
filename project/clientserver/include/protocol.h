@@ -7,6 +7,13 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
+#include <string>
+
+using ArticleName = std::string;
+using NewsgroupName = std::string;
+using Author = std::string;
+using Body = std::string;
+
 enum class Protocol {
         UNDEFINED = 0, // not used in protocol
 
