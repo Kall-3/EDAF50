@@ -46,17 +46,11 @@ int app(const std::shared_ptr<Connection>& conn)
     while (true) {
         
         // Handle input
-        cout << "Enter request:\n 1. List Newsgroups\n 2. Create Newsgroup\n 3. Delete Newsgroup\n 4. List Articles\n 5. Create Article\n 6. Remove Article\n 7. Get Article\n 8. Try fooling server\n 9. Exit client" << endl;
-        std::getline(cin, input);
-        try {
-            request = std::stoi(input);
-        } catch (std::invalid_argument ex) {
-            cerr << "Invalid input: " << input << endl;
-            continue;
-        }
-
+        request = handleInput(input);
+        
         try {
             switch (request) {
+                // List all newsgroups
                 case 1: {
                     mh.sendMessage(conn, Protocol::COM_LIST_NG);
                     mh.sendMessage(conn, Protocol::COM_END);
@@ -71,6 +65,8 @@ int app(const std::shared_ptr<Connection>& conn)
                     }
                     mh.readMessage(conn);   // ANS_END
                     break; }
+                
+                // Create new newsgroup
                 case 2: {
                     cout << "Create Newsgroup, enter name: ";
                     string name;
@@ -91,6 +87,8 @@ int app(const std::shared_ptr<Connection>& conn)
                     }
                     mh.readMessage(conn);   // ANS_END
                     break; }
+                
+                // Remove existing newsgroup
                 case 3: {
                     cout << "Delete Newsgroup, enter ID: ";
                     string input;
@@ -99,8 +97,8 @@ int app(const std::shared_ptr<Connection>& conn)
                     int id;
                     try {
                         id = std::stoi(input);
-                    } catch(std::invalid_argument ex) {
-                        cout << "Invalid ID, not a int." << endl;
+                    } catch (std::invalid_argument ex) {
+                        cout << "Invalid ID, not an integer." << endl;
                         continue;
                     } catch (int e) {
                         exit(1);
@@ -121,6 +119,8 @@ int app(const std::shared_ptr<Connection>& conn)
                     }
                     mh.readMessage(conn);   // ANS_END
                     break; }
+                
+                // List all articles in selected newsgroup
                 case 4: {
                     cout << "List Articles, enter newsgroup ID: ";
                     string input;
@@ -129,9 +129,11 @@ int app(const std::shared_ptr<Connection>& conn)
                     int id;
                     try {
                         id = std::stoi(input);
-                    } catch(int e) {
-                        cout << "Invalid ID, not a int." << e << endl;
+                    } catch (std::invalid_argument ex) {
+                        cout << "Invalid ID, not an integer." << endl;
                         continue;
+                    } catch (int e) {
+                        // Do something
                     }
 
                     mh.sendMessage(conn, Protocol::COM_LIST_ART);
@@ -139,7 +141,7 @@ int app(const std::shared_ptr<Connection>& conn)
                     mh.sendMessage(conn, Protocol::COM_END);
 
                     mh.readMessage(conn);   // ANS_LIST_ARTICLE
-                    auto ack = mh.readMessage(conn);
+                    auto ack = mh.readMessage(conn); // ANS_ACK || ANS_NAK
 
                     if (ack == Protocol::ANS_ACK) {
                         int nbr_newsgroups;
@@ -152,9 +154,15 @@ int app(const std::shared_ptr<Connection>& conn)
                     
                     
                     break; }
+                
+                // Create new article in selected newsgroup
                 case 5: {
-                    cout << "Create article, enter name:" << endl;
+                    cout << "Create article, enter title: ";
+                    string title;
+                    
                     break; }
+                
+                // Remove existing article from selected newsgroup
                 case 6: {
                     cout << "Delete Article, enter Newsgroup ID: ";
                     string ng_input;
@@ -162,9 +170,11 @@ int app(const std::shared_ptr<Connection>& conn)
                     int ng_id;
                     try {
                         ng_id = std::stoi(ng_input);
-                    } catch(int e) {
-                        cout << "Invalid ID, not an integer." << e << endl;
+                    } catch(std::invalid_argument ex) {
+                        cout << "Invalid ID, not an integer." << endl;
                         continue;
+                    } catch (int e) {
+                        // Do something
                     }
 
                     cout << "Enter Article ID: ";
@@ -173,36 +183,101 @@ int app(const std::shared_ptr<Connection>& conn)
                     int a_id;
                     try {
                         a_id = std::stoi(a_input);
-                    } catch(int e) {
-                        cout << "Invalid ID, not an integer." << e << endl;
+                    } catch(std::invalid_argument ex) {
+                        cout << "Invalid ID, not an integer." << endl;
                         continue;
+                    } catch (int e) {
+                        // Do something
                     }
 
-                    mh.sendMessage(conn, Protocol::COM_DELETE_NG);
+                    mh.sendMessage(conn, Protocol::COM_DELETE_ART);
                     mh.sendNumP(conn, ng_id);
                     mh.sendNumP(conn, a_id);
                     mh.sendMessage(conn, Protocol::COM_END);
 
-                    mh.readMessage(conn);   // ANS_DELETE_NG
-                    auto ack = mh.readMessage(conn);
+                    mh.readMessage(conn);   // ANS_DELETE_ART
+                    auto ack = mh.readMessage(conn); // ANS_ACK || ANS_NAK
 
                     if (ack == Protocol::ANS_ACK) {
-                        cout << "Newsgroup deleted." << endl;
+                        cout << "Article deleted from Newsgroup." << endl;
                     } else {
-                        cout << "Newsgroup with id " << a_id << " does not exist." << endl;
-                        mh.readMessage(conn);   // ERR_NG_DOES_NOT_EXIST
+                        auto err_type = mh.readMessage(conn);   // ERR_NG_DOES_NOT_EXIST || ERR_ART_DOES_NOT_EXIST
+                        if (err_type == Protocol::ERR_NG_DOES_NOT_EXIST) {
+                            cout << "Newsgroup with id " << ng_id << " does not exist." << endl;
+                        }
+                        else {
+                            cout << "Article with id " << a_id << " does not exist in the selected newsgroup." << endl;
+                        }
                     }
                     mh.readMessage(conn);   // ANS_END
                     break; }
+                
+                // Get existing article from specified newsgroup
                 case 7: {
+                    cout << "Get Article, enter Newsgroup ID: ";
+                    string ng_input;
+                    cin >> ng_input;
+                    int ng_id;
+                    try {
+                        ng_id = std::stoi(ng_input);
+                    } catch(std::invalid_argument ex) {
+                        cout << "Invalid ID, not an integer." << endl;
+                        continue;
+                    } catch (int e) {
+                        // Do something
+                    }
 
+                    cout << "Enter Article ID: ";
+                    string a_input;
+                    cin >> a_input;
+                    int a_id;
+                    try {
+                        a_id = std::stoi(a_input);
+                    } catch(std::invalid_argument ex) {
+                        cout << "Invalid ID, not an integer." << endl;
+                        continue;
+                    } catch (int e) {
+                        // Do something
+                    }
+
+                    mh.sendMessage(conn, Protocol::COM_GET_ART);
+                    mh.sendNumP(conn, ng_id);
+                    mh.sendNumP(conn, a_id);
+                    mh.sendMessage(conn, Protocol::COM_END);
+
+                    mh.readMessage(conn);   // ANS_GET_ART
+                    auto ack = mh.readMessage(conn); // ANS_ACK || ANS_NAK
+
+                    if (ack == Protocol::ANS_ACK) {
+                        string title = mh.readStringP(conn);
+                        string author = mh.readStringP(conn);
+                        string body = mh.readStringP(conn);
+                        cout << "Title: " << title << "\n" << "Author: " << author << "\n" << body << endl;
+                    }
+                    else {
+                        auto err_type = mh.readMessage(conn);   // ERR_NG_DOES_NOT_EXIST || ERR_ART_DOES_NOT_EXIST
+                        if (err_type == Protocol::ERR_NG_DOES_NOT_EXIST) {
+                            cout << "Newsgroup with id " << ng_id << " does not exist." << endl;
+                        }
+                        else {
+                            cout << "Article with id " << a_id << " does not exist in the selected newsgroup." << endl;
+                        }
+                    }
+                    mh.readMessage(conn); // ANS_END
+                    
                     break; }
+                
+                // Test case to give the server incorrect message protocols
                 case 8: {
 
                     break; }
+                
+                // Quit and disconnect
                 case 9: {
-
+                    cout << "Disconnecting client from server." << endl;
+                    exit(0);
                     break; }
+                
                 default:
                     cout << "Invalid request" << endl;
                     break;
@@ -215,6 +290,27 @@ int app(const std::shared_ptr<Connection>& conn)
     }
     cout << "\nexiting.\n";
     return 0;
+}
+
+int handleInput(string input) {
+    int req;
+    cout << "Enter request:\n 1. List Newsgroups\n 2. Create Newsgroup\n 3. Delete Newsgroup\n 4. List Articles\n 5. Create Article\n 6. Remove Article\n 7. Get Article\n 8. Try fooling server\n 9. Exit client" << endl;
+    std::getline(cin, input);
+    try {
+        req = std::stoi(input);
+    } catch (std::invalid_argument ex) {
+        cerr << "Invalid input: " << input << endl;
+        //continue;
+    }
+    return req;
+}
+
+void getIDs() {
+
+}
+
+void checkErrorType() {
+
 }
 
 int main(int argc, char* argv[])
