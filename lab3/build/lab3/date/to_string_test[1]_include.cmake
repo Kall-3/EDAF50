@@ -1,5 +1,0 @@
-if(EXISTS "/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab3/build/lab3/date/to_string_test[1]_tests.cmake")
-  include("/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab3/build/lab3/date/to_string_test[1]_tests.cmake")
-else()
-  add_test(to_string_test_NOT_BUILT to_string_test_NOT_BUILT)
-endif()

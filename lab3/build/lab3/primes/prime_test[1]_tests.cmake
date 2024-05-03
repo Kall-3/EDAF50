@@ -1,7 +1,0 @@
-add_test([=[PrimeTest.PrimesUnderTenTest]=]  [==[/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab3/build/lab3/primes/prime_test]==] [==[--gtest_filter=PrimeTest.PrimesUnderTenTest]==] --gtest_also_run_disabled_tests)
-set_tests_properties([=[PrimeTest.PrimesUnderTenTest]=]  PROPERTIES WORKING_DIRECTORY [==[/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab3/build/lab3/primes]==] SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
-add_test([=[PrimeTest.LastFivePrimesUnder_1_000]=]  [==[/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab3/build/lab3/primes/prime_test]==] [==[--gtest_filter=PrimeTest.LastFivePrimesUnder_1_000]==] --gtest_also_run_disabled_tests)
-set_tests_properties([=[PrimeTest.LastFivePrimesUnder_1_000]=]  PROPERTIES WORKING_DIRECTORY [==[/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab3/build/lab3/primes]==] SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
-add_test([=[PrimeTest.LargersPrimeUpto_100_000]=]  [==[/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab3/build/lab3/primes/prime_test]==] [==[--gtest_filter=PrimeTest.LargersPrimeUpto_100_000]==] --gtest_also_run_disabled_tests)
-set_tests_properties([=[PrimeTest.LargersPrimeUpto_100_000]=]  PROPERTIES WORKING_DIRECTORY [==[/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab3/build/lab3/primes]==] SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
-set(  prime_test_TESTS PrimeTest.PrimesUnderTenTest PrimeTest.LastFivePrimesUnder_1_000 PrimeTest.LargersPrimeUpto_100_000)

@@ -40,3 +40,4 @@ sum: sum.o
 clean:
 	-rm  $(PROGS)
 	-rm -r $(addsuffix .dSYM, $(PROGS))
+	-rm *.o

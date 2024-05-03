@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/TestCoding.dir/test_coding.cc.o -o TestCoding  liblab1/libLibLab1.a -fsanitize=address 

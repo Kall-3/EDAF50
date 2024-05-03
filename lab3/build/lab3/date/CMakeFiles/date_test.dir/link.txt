@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/date_test.dir/date_test.cc.o CMakeFiles/date_test.dir/date.cc.o -o date_test 

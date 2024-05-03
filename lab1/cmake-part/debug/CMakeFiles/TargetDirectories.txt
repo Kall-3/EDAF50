@@ -1,7 +1,0 @@
-/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-part/debug/CMakeFiles/TestList.dir
-/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-part/debug/CMakeFiles/TestCoding.dir
-/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-part/debug/CMakeFiles/edit_cache.dir
-/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-part/debug/CMakeFiles/rebuild_cache.dir
-/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-part/debug/liblab1/CMakeFiles/LibLab1.dir
-/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-part/debug/liblab1/CMakeFiles/edit_cache.dir
-/home/Kojjan/Documents/School/EDAF50 - C++ Programming/lab1/cmake-part/debug/liblab1/CMakeFiles/rebuild_cache.dir

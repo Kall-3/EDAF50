@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/primes.dir/primes.cc.o CMakeFiles/primes.dir/sieve_of_eratosthenes_primes.cc.o -o primes 

@@ -1,1 +1,3 @@
-project/clientserver/.cache/*
+*/.cache/*
+*/build
+*.vscode/*

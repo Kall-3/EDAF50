@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/string_cast_test.dir/string_cast_test.cc.o CMakeFiles/string_cast_test.dir/date.cc.o -o string_cast_test  ../../lib/libgtest_main.a ../../lib/libgtest.a 

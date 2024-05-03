@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/TestCodingAddressSan.dir/test_coding.cc.o -o TestCodingAddressSan  liblab1/libLibLab1.a 
