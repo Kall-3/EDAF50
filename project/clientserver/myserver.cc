@@ -6,6 +6,7 @@
 #include "messagehandler.h"
 
 #include <cstdlib>
+#include <stdexcept>
 #include <iostream>
 #include <memory>
 #include <string>

@@ -31,6 +31,7 @@
 #include "connection.h"
 #include "messagehandler.h"
 
+#include <exception>
 #include <memory>
 #include <vector>
 

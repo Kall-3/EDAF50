@@ -11,7 +11,6 @@ Protocol MessageHandler::readMessage(const std::shared_ptr<Connection>& conn) {
 
 void MessageHandler::sendMessage(const std::shared_ptr<Connection>& conn, Protocol message) {
     unsigned char byte = int(message);
-
     conn->write(byte);
 }
 
