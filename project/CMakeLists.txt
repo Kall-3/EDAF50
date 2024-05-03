@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 # Project definitions
 project(news-skeleton
   VERSION 0.1
-  DESCRIPTION "Example client/server library"
+  DESCRIPTION "Client/Server library"
   LANGUAGES CXX
 )
 
@@ -88,7 +88,7 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 ##################### examples are in a subdirectory ############
 
-add_subdirectory(example) # Add these late to make flags, etc. visible
+add_subdirectory(clientserver) # Add these late to make flags, etc. visible
 
 
 # Print summary of configuration
