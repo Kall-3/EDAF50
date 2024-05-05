@@ -1,5 +1,6 @@
 #include "messagehandler.h"
 #include "connection.h"
+#include "connectionclosedexception.h"
 #include "protocol.h"
 #include <memory>
 #include <string>
@@ -51,7 +52,9 @@ void MessageHandler::sendStringP(const std::shared_ptr<Connection>& conn, std::s
 }
 
 int MessageHandler::readNumP(const std::shared_ptr<Connection>& conn) {
-    conn->read();   //PAR_NUM
+    if (readMessage(conn) != Protocol::PAR_NUM) {
+        throw ProtocolViolationException();
+    }
 
     unsigned char byte1 = conn->read();
     unsigned char byte2 = conn->read();
@@ -62,7 +65,9 @@ int MessageHandler::readNumP(const std::shared_ptr<Connection>& conn) {
 }
 
 std::string MessageHandler::readStringP(const std::shared_ptr<Connection>& conn) {
-    conn->read();   //PAR_STRING
+    if (readMessage(conn) != Protocol::PAR_STRING) {
+        throw ProtocolViolationException();
+    }
 
     unsigned char byte1 = conn->read();
     unsigned char byte2 = conn->read();

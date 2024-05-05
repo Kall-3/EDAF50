@@ -15,5 +15,6 @@
 #define CONNECTION_CLOSED_EXCEPTION_H
 
 struct ConnectionClosedException {};
+struct ProtocolViolationException {};
 
 #endif

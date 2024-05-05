@@ -40,14 +40,14 @@ Server init(int argc, char* argv[])
     return server;
 }
 
-void process_request(const std::shared_ptr<Connection> conn, Server& server, PrimeDatabase& db)
-{
+void process_request(const std::shared_ptr<Connection> conn, Server& server, PrimeDatabase& db) {
     /* Read one char i.e. one protocol message */
     Protocol message = server.mh.readMessage(conn);
 
     switch (message) {
         case Protocol::COM_LIST_NG: {
-            server.mh.readMessage(conn);    // com_end
+            if (server.mh.readMessage(conn) != Protocol::COM_END) { throw ProtocolViolationException(); }
+
             server.mh.sendMessage(conn, Protocol::ANS_LIST_NG);
             auto query = db.listNewsgroups();
 
@@ -64,7 +64,7 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
         }
         case Protocol::COM_CREATE_NG: {
             std::string ng_name = server.mh.readStringP(conn);
-            server.mh.readMessage(conn);    // com_end
+            if (server.mh.readMessage(conn) != Protocol::COM_END) { throw ProtocolViolationException(); }
 
             server.mh.sendMessage(conn, Protocol::ANS_CREATE_NG);
             auto res = db.addNewsgroup(ng_name);
@@ -80,7 +80,7 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
         }
         case Protocol::COM_DELETE_NG: {
             int ng_id = server.mh.readNumP(conn);
-            server.mh.readMessage(conn);    //com_end
+            if (server.mh.readMessage(conn) != Protocol::COM_END) { throw ProtocolViolationException(); }
             server.mh.sendMessage(conn, Protocol::ANS_DELETE_NG);
 
             auto res = db.removeNewsgroup(ng_id);
@@ -96,7 +96,8 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
         }
         case Protocol::COM_LIST_ART: {
             int ng_id = server.mh.readNumP(conn);
-            server.mh.readMessage(conn);    //com_end
+            if (server.mh.readMessage(conn) != Protocol::COM_END) { throw ProtocolViolationException(); }
+
             server.mh.sendMessage(conn, Protocol::ANS_LIST_ART);
 
             auto query = db.getArticles(ng_id);
@@ -120,7 +121,7 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
             std::string title = server.mh.readStringP(conn);
             std::string author = server.mh.readStringP(conn);
             std::string body = server.mh.readStringP(conn);
-            server.mh.readMessage(conn);    //com_end
+            if (server.mh.readMessage(conn) != Protocol::COM_END) { throw ProtocolViolationException(); }
             server.mh.sendMessage(conn, Protocol::ANS_CREATE_ART);
 
             auto res = db.newArticle(ng_id, title, author, body);
@@ -137,7 +138,7 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
         case Protocol::COM_DELETE_ART: {
             int ng_id = server.mh.readNumP(conn);
             int art_id = server.mh.readNumP(conn);
-            server.mh.readMessage(conn);    //com_end
+            if (server.mh.readMessage(conn) != Protocol::COM_END) { throw ProtocolViolationException(); }
             server.mh.sendMessage(conn, Protocol::ANS_DELETE_ART);
 
             auto res = db.removeArticle(ng_id, art_id);
@@ -157,7 +158,7 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
         case Protocol::COM_GET_ART: {
             int ng_id = server.mh.readNumP(conn);
             int art_id = server.mh.readNumP(conn);
-            server.mh.readMessage(conn);    //com_end
+            if (server.mh.readMessage(conn) != Protocol::COM_END) { throw ProtocolViolationException(); }
             server.mh.sendMessage(conn, Protocol::ANS_GET_ART);
 
             auto query = db.getArticle(ng_id, art_id);
@@ -177,11 +178,8 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
             server.mh.sendMessage(conn, Protocol::ANS_END);
             break;
         }
-        case Protocol::COM_END: {
-            break;
-        }
         default:
-            break;
+            throw ProtocolViolationException();
     }
 }
 
@@ -196,6 +194,9 @@ void serve_one(Server& server, PrimeDatabase& db)
         } catch (ConnectionClosedException&) {
             server.deregisterConnection(conn);
             cout << "Client closed connection" << endl;
+        } catch (ProtocolViolationException&) {
+            server.deregisterConnection(conn);
+            cout << "Client violated protocol, kicked client" << endl;
         }
     } else {
         conn = std::make_shared<Connection>();
@@ -207,7 +208,7 @@ void serve_one(Server& server, PrimeDatabase& db)
 int main(int argc, char* argv[])
 {
         auto server = init(argc, argv);
-        auto db = new PrimeDatabase(std::cout, std::cout);
+        auto db = new PrimeDatabase(std::cout, std::cerr);
 
         while (true) {
             serve_one(server, *db);
