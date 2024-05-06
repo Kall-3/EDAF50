@@ -2,7 +2,7 @@
 #define NEWSGROUP_H
 
 #include "article.h"
-#include "../enums.h"
+#include "database/enums.h"
 
 #include <memory>
 #include <vector>

@@ -1,7 +1,7 @@
 #ifndef ARTICLE_H
 #define ARTICLE_H
 
-#include "../enums.h"
+#include "database/enums.h"
 
 class Article {
 public:

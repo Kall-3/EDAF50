@@ -1,8 +1,8 @@
 #ifndef DISK_DATABASE_H
 #define DISK_DATABASE_H
 
-#include "../database.h"
-#include "../enums.h"
+#include "database/database.h"
+#include "database/enums.h"
 
 #ifndef PROJECT_ROOT
 #define PROJECT_ROOT "" // Defined in CMake, compiler flag, should be the path to the project

@@ -2,8 +2,8 @@
 #define PRIME_DATABASE_H
 
 #include "newsgroup.h"
-#include "../database.h"
-#include "../enums.h"
+#include "database/database.h"
+#include "database/enums.h"
 
 #include <memory>
 #include <tuple>

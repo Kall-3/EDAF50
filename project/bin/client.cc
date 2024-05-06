@@ -1,7 +1,7 @@
-#include "../connection.h"
-#include "../clientserverexceptions.h"
-#include "../messagehandler.h"
-#include "../protocol.h"
+#include "server/connection.h"
+#include "server/clientserverexceptions.h"
+#include "server/messagehandler.h"
+#include "server/protocol.h"
 
 #include <cstdlib>
 #include <iostream>

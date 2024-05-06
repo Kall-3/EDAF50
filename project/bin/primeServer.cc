@@ -1,10 +1,10 @@
-#include "../connection.h"
-#include "../clientserverexceptions.h"
-#include "../server.h"
-#include "../protocol.h"
-#include "../messagehandler.h"
+#include "server/connection.h"
+#include "server/clientserverexceptions.h"
+#include "server/server.h"
+#include "server/protocol.h"
+#include "server/messagehandler.h"
 
-#include "../../database/prime/primeDatabase.h"
+#include "database/prime/primeDatabase.h"
 
 #include <cstdlib>
 #include <iostream>

@@ -1,6 +1,4 @@
 #include "primeDatabase.h"
-#include "database/enums.h"
-#include "newsgroup.h"
 
 #include <algorithm>
 #include <memory>

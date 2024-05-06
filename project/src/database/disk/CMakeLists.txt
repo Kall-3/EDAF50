@@ -1,4 +1,1 @@
-target_sources(clientserver
-    PRIVATE
-        diskDatabase.cc
-)
+add_library(disk_database STATIC diskDatabase.cc)

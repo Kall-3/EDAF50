@@ -1,7 +1,4 @@
 #include "newsgroup.h"
-#include "article.h"
-
-#include "../enums.h"
 
 #include <algorithm>
 #include <memory>

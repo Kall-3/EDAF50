@@ -1,6 +1,1 @@
-target_sources(clientserver
-    PRIVATE
-        primeDatabase.cc
-        newsgroup.cc
-        article.cc
-)
+add_library(prime_database STATIC primeDatabase.cc newsgroup.cc article.cc)

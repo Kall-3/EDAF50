@@ -1,6 +1,4 @@
 #include "server.h"
-#include "connection.h"
-#include "messagehandler.h"
 
 #include <algorithm>
 #include <arpa/inet.h> /* htons(), ntohs() */

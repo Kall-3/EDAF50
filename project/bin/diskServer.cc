@@ -1,11 +1,11 @@
-#include "../connection.h"
-#include "../clientserverexceptions.h"
-#include "../server.h"
-#include "../protocol.h"
-#include "../messagehandler.h"
+#include "server/connection.h"
+#include "server/clientserverexceptions.h"
+#include "server/server.h"
+#include "server/protocol.h"
+#include "server/messagehandler.h"
 
-#include "../../database/disk/diskDatabase.h"
-#include "../../database/databaseExceptions.h"
+#include "database/disk/diskDatabase.h"
+#include "database/databaseExceptions.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -17,8 +17,7 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-Server init(int argc, char* argv[])
-{
+Server init(int argc, char* argv[]) {
     if (argc != 3) {
         cerr << argc << " Usage: myserver port-number" << endl;
         exit(1);
@@ -184,8 +183,7 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Dis
     }
 }
 
-void serve_one(Server& server, DiskDatabase& db)
-{
+void serve_one(Server& server, DiskDatabase& db) {
     cout << endl << "Waiting for activity" << endl;
     auto conn = server.waitForActivity();
     if (conn != nullptr) {
@@ -209,8 +207,7 @@ void serve_one(Server& server, DiskDatabase& db)
     }
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
         auto server = init(argc, argv);
         auto db = new DiskDatabase();
 
