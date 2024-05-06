@@ -8,7 +8,7 @@ project(news-skeleton
 )
 
 # Enforce C++ standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Compiler and linker options
@@ -37,6 +37,10 @@ add_library(clientserver "")  # empty, sources to be added by target_sources
 
 add_subdirectory(src)
 
+# Project root directory for disk database
+set(PROJECT_ROOT ${CMAKE_SOURCE_DIR})
+add_compile_definitions(PROJECT_ROOT="${PROJECT_ROOT}")
+
 # variables for common settings to avoid repeating the same details for multiple targets
  SET(clientserver_public_include_dirs
          $<INSTALL_INTERFACE:include>
@@ -53,6 +57,8 @@ target_include_directories(clientserver
     PRIVATE
         ${clientserver_private_include_dirs}
 )
+
+set(BATABASE_ROOT "${CMAKE_SOURCE_DIR}/db_root")
 
 ### variable used when configuring files
 ##get_filename_component(src_dir_path "${PROJECT_SOURCE_DIR}" ABSOLUTE)
@@ -85,11 +91,6 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # message(STATUS "C++ flags, Release configuration: ${CMAKE_CXX_FLAGS_RELEASE}")
 # message(STATUS "C++ flags, Release configuration with Debug info: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
 # message(STATUS "C++ flags, minimal Release configuration: ${CMAKE_CXX_FLAGS_MINSIZEREL}")
-
-##################### examples are in a subdirectory ############
-
-add_subdirectory(clientserver) # Add these late to make flags, etc. visible
-
 
 # Print summary of configuration
 

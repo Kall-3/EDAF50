@@ -1,6 +1,5 @@
 #include "connection.h"
-
-#include "connectionclosedexception.h"
+#include "clientserverexceptions.h"
 
 #include <arpa/inet.h> /* htons() */
 #include <csignal>     /* signal() */

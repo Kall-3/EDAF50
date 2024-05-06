@@ -1,30 +1,3 @@
-// ------------------------------------------------------------------
-//
-//                                 Client/Server communication package
-//
-//                                               Connection header file
-//
-// Change log
-//  950323  RH  Initial version
-//  951212  RH  Modified to allow subclassing of class Connection
-//  970127  RH  Changed "private" to "protected"
-//  990125  PH  Changed function names: Read -> read, etc.
-//  000114  PH  int -> bool, virtual destructors, other minor changes
-//  010129  PH  added void type to initConnection
-//  011212  PH  changed char* arguments to const char*
-//              changed connection closed handling to exception
-//              unsigned char instead of char/int in write/read
-//  020102  PH  split into separate file for each class
-//  040421  PH  added namespace, new casts, cleaned up a lot
-//  050113  PH  added deregisterConnection, new registration (vector),
-//              added check for server shutdown, many more changes
-//  130515  PH  removed namespace
-//  141118  PH  deleted copy constructor & copy assignment
-//  190211  SGR refactored constructors
-//              added named constant for invalid socket
-//
-// ------------------------------------------------------------------
-
 #ifndef CONNECTION_H
 #define CONNECTION_H
 

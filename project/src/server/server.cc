@@ -1,5 +1,4 @@
 #include "server.h"
-
 #include "connection.h"
 #include "messagehandler.h"
 

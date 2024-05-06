@@ -1,37 +1,9 @@
-// ------------------------------------------------------------------
-//
-//                                 Client/Server communication package
-//
-//                                                 Server header file
-//
-// Change log
-// 950323  RH  Initial version
-// 951212  RH  Modified to allow subclassing of class Connection
-// 970127  RH  Changed "private" to "protected"
-// 990125  PH  Changed function names: Read -> read, etc.
-// 000114  PH  int -> bool, virtual destructors, other minor changes
-// 010129  PH  added void type to initConnection
-// 011212  PH  changed char* arguments to const char*
-//             changed connection closed handling to exception
-//             unsigned char instead of char/int in write/read
-// 020102  PH  split into separate file for each class
-// 040421  PH  added namespace, new casts, cleaned up a lot
-// 050113  PH  added deregisterConnection, new registration (vector),
-//             added check for server shutdown, many more changes
-// 130521  PH  removed namespace, shared pointers instead of raw pointers
-// 141118  PH  deleted copy constructor & copy assignment
-// 190211  SGR use Connection::no_socket instead of literal -1
-//             added move ctor to Connection and Server
-//
-// ------------------------------------------------------------------
-
 #ifndef SERVER_H
 #define SERVER_H
 
 #include "connection.h"
 #include "messagehandler.h"
 
-#include <exception>
 #include <memory>
 #include <vector>
 

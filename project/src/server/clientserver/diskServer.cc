@@ -1,12 +1,13 @@
-#include "connection.h"
-#include "connectionclosedexception.h"
-#include "database/primeDatabase.h"
-#include "server.h"
-#include "protocol.h"
-#include "messagehandler.h"
+#include "../connection.h"
+#include "../clientserverexceptions.h"
+#include "../server.h"
+#include "../protocol.h"
+#include "../messagehandler.h"
+
+#include "../../database/disk/diskDatabase.h"
+#include "../../database/databaseExceptions.h"
 
 #include <cstdlib>
-#include <stdexcept>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -40,7 +41,7 @@ Server init(int argc, char* argv[])
     return server;
 }
 
-void process_request(const std::shared_ptr<Connection> conn, Server& server, PrimeDatabase& db) {
+void process_request(const std::shared_ptr<Connection> conn, Server& server, DiskDatabase& db) {
     /* Read one char i.e. one protocol message */
     Protocol message = server.mh.readMessage(conn);
 
@@ -56,8 +57,8 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
             server.mh.sendNumP(conn, size);
 
             for (auto ng : query.second) {
-                server.mh.sendNumP(conn, ng.getID());
-                server.mh.sendStringP(conn, ng.getName());
+                server.mh.sendNumP(conn, ng.first);
+                server.mh.sendStringP(conn, ng.second);
             }
             server.mh.sendMessage(conn, Protocol::ANS_END);
             break;
@@ -106,8 +107,8 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
                 server.mh.sendMessage(conn, Protocol::ANS_ACK);
                 server.mh.sendNumP(conn, query.second.size());
                 for (auto art : query.second) {
-                    server.mh.sendNumP(conn, art.getID());
-                    server.mh.sendStringP(conn, art.getTitle());
+                    server.mh.sendNumP(conn, art.first);
+                    server.mh.sendStringP(conn, art.second);
                 }
             } else {
                 server.mh.sendMessage(conn, Protocol::ANS_NAK);
@@ -165,9 +166,9 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
 
             if (query.first == ActionResult::ACCEPTED) {
                 server.mh.sendMessage(conn, Protocol::ANS_ACK);
-                server.mh.sendStringP(conn, query.second.getTitle());
-                server.mh.sendStringP(conn, query.second.getAuthor());
-                server.mh.sendStringP(conn, query.second.getBody());
+                server.mh.sendStringP(conn, std::get<0>(query.second));
+                server.mh.sendStringP(conn, std::get<1>(query.second));
+                server.mh.sendStringP(conn, std::get<2>(query.second));
             } else if (query.first == ActionResult::NG_DOES_NOT_EXIST) {
                 server.mh.sendMessage(conn, Protocol::ANS_NAK);
                 server.mh.sendMessage(conn, Protocol::ERR_NG_DOES_NOT_EXIST);
@@ -183,7 +184,7 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
     }
 }
 
-void serve_one(Server& server, PrimeDatabase& db)
+void serve_one(Server& server, DiskDatabase& db)
 {
     cout << endl << "Waiting for activity" << endl;
     auto conn = server.waitForActivity();
@@ -197,6 +198,9 @@ void serve_one(Server& server, PrimeDatabase& db)
         } catch (ProtocolViolationException&) {
             server.deregisterConnection(conn);
             cout << "Client violated protocol, kicked client" << endl;
+        } catch (DiskDatabaseException&) {
+            server.deregisterConnection(conn);
+            cout << "Database error: " << endl;
         }
     } else {
         conn = std::make_shared<Connection>();
@@ -208,7 +212,7 @@ void serve_one(Server& server, PrimeDatabase& db)
 int main(int argc, char* argv[])
 {
         auto server = init(argc, argv);
-        auto db = new PrimeDatabase(std::cout, std::cerr);
+        auto db = new DiskDatabase();
 
         while (true) {
             serve_one(server, *db);

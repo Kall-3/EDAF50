@@ -27,7 +27,8 @@ macro(add_program TESTNAME)
   )
 endmacro()
 
-add_program(myserver myserver.cc)
+add_program(primeServer primeServer.cc)
+add_program(diskServer diskServer.cc)
 add_program(myclient myclient.cc)
 
-install(TARGETS myserver myclient)
+install(TARGETS primeServer diskServer myclient)

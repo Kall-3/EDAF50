@@ -3,6 +3,7 @@
 
 #include "connection.h"
 #include "protocol.h"
+
 #include <memory>
 #include <string>
 
@@ -17,9 +18,6 @@ public:
     void sendStringP(const std::shared_ptr<Connection>& conn, std::string message);
     int readNumP(const std::shared_ptr<Connection>& conn);
     std::string readStringP(const std::shared_ptr<Connection>& conn);
-
-private:
-    // const std::shared_ptr<Connection>& conn;
 };
 
 #endif
