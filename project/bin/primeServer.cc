@@ -185,11 +185,9 @@ void process_request(const std::shared_ptr<Connection> conn, Server& server, Pri
 
 void serve_one(Server& server, PrimeDatabase& db)
 {
-    cout << endl << "Waiting for activity" << endl;
     auto conn = server.waitForActivity();
     if (conn != nullptr) {
         try {
-            cout << "Processing request" << std::endl;
             process_request(conn, server, db);
         } catch (ConnectionClosedException&) {
             server.deregisterConnection(conn);

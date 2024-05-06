@@ -3,7 +3,6 @@
 
 #include "newsgroup.h"
 #include "database/database.h"
-#include "database/enums.h"
 
 #include <memory>
 #include <tuple>
