@@ -19,7 +19,7 @@ DiskDatabase::DiskDatabase() {
     }
     path id_path = this->root / "uniqueID.txt";
     if (!exists(id_path)) {
-        writeNextNewsgroupID(0);
+        writeNextNewsgroupID(1);
     }
 }
 
@@ -79,6 +79,7 @@ ActionResult DiskDatabase::addNewsgroup(const NewsgroupName& name) {
     // Create the directory for the newsgroup
     path newsgroup_path = this->root / std::to_string(id);
     create_directory(newsgroup_path);
+    writeNextArticleID(newsgroup_path, 1);
 
     // Create the metadata.txt file
     std::ofstream metadata_file(newsgroup_path / "metadata.txt");
@@ -102,7 +103,7 @@ std::pair<ActionResult, std::vector<std::pair<ArticleID, ArticleName>>> DiskData
     path newsgroup_path = this->root / std::to_string(ng_id);
     
     if (exists(newsgroup_path)) {
-        for (const auto& entry : std::filesystem::directory_iterator(newsgroup_path)) {
+        for (const auto& entry : directory_iterator(newsgroup_path)) {
             if (entry.is_directory()) {
                 ArticleID article_id;
                 ArticleName article_name;
@@ -122,6 +123,10 @@ std::pair<ActionResult, std::vector<std::pair<ArticleID, ArticleName>>> DiskData
                 articles.push_back(std::make_pair(article_id, article_name));
             }
         }
+        std::sort(articles.begin(), articles.end(), [](const auto& a, const auto& b) {
+            return a.first < b.first;
+        });
+
         return std::make_pair(ActionResult::ACCEPTED, articles);
     } else {
         return std::make_pair(ActionResult::NG_DOES_NOT_EXIST, articles);
@@ -132,8 +137,13 @@ ActionResult DiskDatabase::newArticle(const NewsgroupID& ng_id, const ArticleNam
     if (exists(newsgroup_path)) {
         // Generate a unique ID for the article
         int article_id = getNextArticleID(newsgroup_path);
+        writeNextArticleID(newsgroup_path, article_id + 1);
         path article_path = newsgroup_path / std::to_string(article_id);
 
+        // Create article directory
+        create_directory(article_path);
+
+        // Fill metadata.txt and body.txt
         std::string metadata_path = article_path / "metadata.txt";
         std::ofstream article_metadata(metadata_path);
         if (article_metadata.is_open()) {
@@ -195,7 +205,7 @@ std::pair<ActionResult, std::tuple<ArticleName, Author, Body>> DiskDatabase::get
             }
 
             path body_path = article_path / "body.txt";
-            std::ifstream body_file(metadata_path);
+            std::ifstream body_file(body_path);
             if (body_file.is_open()) {
                 std::string line;
                 std::stringstream ss;
@@ -212,8 +222,7 @@ std::pair<ActionResult, std::tuple<ArticleName, Author, Body>> DiskDatabase::get
                 throw DiskDatabaseException();
             }
 
-            auto article = std::make_tuple(name, author, body);
-            return std::make_pair(ActionResult::ACCEPTED, article);
+            return std::make_pair(ActionResult::ACCEPTED, std::make_tuple(name, author, body));
         } else {
             return std::make_pair(ActionResult::ART_DOES_NOT_EXIST, std::make_tuple("", "", ""));
         }
@@ -224,7 +233,8 @@ std::pair<ActionResult, std::tuple<ArticleName, Author, Body>> DiskDatabase::get
 
 // Private helper functions
 void DiskDatabase::writeNextNewsgroupID(int id) {
-    std::ofstream metadata("uniqueID.txt", std::ios::trunc);    // Overwrites the file if exists (trunc)
+    path unique_id_path = this->root / "uniqueID.txt";
+    std::ofstream metadata(unique_id_path, std::ios::trunc);     // Overwrites the file if exists (trunc)
     if (metadata.is_open()) {
         metadata << id;
         metadata.close();
@@ -236,7 +246,8 @@ void DiskDatabase::writeNextNewsgroupID(int id) {
 
 NewsgroupID DiskDatabase::getNextNewsgroupID() {
     NewsgroupID id;
-    std::ifstream metadata("uniqueID.txt");
+    path unique_id_path = this->root / "uniqueID.txt";
+    std::ifstream metadata(unique_id_path);
     if (metadata.is_open()) {
         metadata >> id;
         metadata.close();
